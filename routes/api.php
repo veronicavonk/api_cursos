@@ -16,3 +16,16 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('login', 'AuthController@login');
+Route::post('registro', 'AuthController@registro');
+
+Route::group(['middleware'=>['cors','auth:api']], function () {
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
+    //actualizar datos de perfil
+    Route::put('usuario/{usu_id}','UsuarioController@update');
+});
